@@ -1,6 +1,9 @@
 # jQuery Compare
 
-This jQuery plugin helps with array and object literal comparisons with a few customisations to help get fine grained comparisions with a small amount of code. It supports callbacks and/or method chaining.
+This jQuery plugin helps with array and object literal comparisons with a few customisations to help get fine grained comparisions with a small amount of code. It supports callbacks, a list of available options follow.
+
+
+*Usage*
 
 ``` Javascript
 $([mixed]).compare([mixed], {options}, callback);
@@ -8,7 +11,7 @@ $([mixed]).compare([mixed], {options}, callback);
 
 ## Options
 
-`caseSensitive`
+#### caseSensitive
 
 Type: _Boolean_, Default: `true`
 
@@ -20,7 +23,8 @@ $(['cat', 'dog', 'bird']).compare(['CAT', 'DOG', 'BIRD'], {
 });
 ```
 
-`fuzzy`
+#### fuzzy
+
 Type: _Boolean_, Default: `false`
 
 Perform an exact match on the number of properties the array or object has.
@@ -31,7 +35,8 @@ $([1, 2, 3]).compare([1, 2, 3, 4, 5], {
 });
 ```
 
-`sort`
+#### sort
+
 Type: _Boolean_, Default: `true`
 
 Whether or not the array should be sorted prior to the comparison (this will not have any affect on the arrays your pass through to the function.) This option has no effect on objects.
@@ -42,7 +47,7 @@ $([1, 2, 3]).compare([3, 2, 1], {
 });
 ```
 
-`success`
+#### success
 
 Type: _Function_, Default: `void`
 
@@ -54,7 +59,8 @@ $([1, 2, 3]).compare([1, 2, 3], {
 });
 ```
 
-`error`
+#### error
+
 Type: _Function_, Default: `void `
 
 A set of operations to perform if the comparison fails. This function will be passed the matching array.
@@ -65,7 +71,7 @@ $([1, 2, 3]).compare([1, 2, 3], {
 });
 ```
 
-`callback`
+#### callback
 
 Type: _Function_, Default: `void`
 
