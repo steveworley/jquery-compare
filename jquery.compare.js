@@ -3,7 +3,7 @@
  * 
  * jQuery Compare is a simple jQuery plugin that helps compare array and object litterals. 
  *
- * version: 0.1
+ * version: 0.2
  * author: Steve Worley <sj.worley88@gmail.com>
  * url: http://steveworley.me/jquery-compare
  *
@@ -42,19 +42,10 @@
     cb = (arguments.length == 2 && typeof opts == 'function') ? opts : cb;
 
     // Set up options
-    switch (arguments.length) {
-      case 2:
-        if (typeof opts != 'function') {
-          $.extend(options, defaults, opts);
-        }
-        break;
-      default:
-        if (typeof opts == 'object') {
-          $.extend(options, defaults, opts);
-        } else {
-          $.extend(options, defaults);
-        }
-        break;
+    if (typeof opts == 'object') {
+      $.extend(options, defaults, opts);
+    } else {
+      $.extend(options, defaults);
     }
 
     if (options.sort && isArray) {
@@ -75,21 +66,35 @@
     }
 
     if (isArray === false) {
+      
+      if (options.caseSensitive == false) {
+        var newA = {}, newB = {};
+        
+        $.map(a, function(val, key) {
+          newA[key.toLowerCase()] = val;
+        });
+        $.map(b, function(val, key) {
+          newB[key.toLowerCase()] = val;
+        });
+        
+        a = newA;
+        b = newB;
+      }
+      
       for(var key in a) {
         if (typeof a[key] !== typeof b[key]) {
           passed = false;
-          break;
-        }
-        if (typeof a[key] == 'function') {
+        } else if (typeof a[key] == 'function') {
           passed = a[key].toString() == b[key].toString();
-          break;
-        }
-        if (a[key] instanceof Object && b[key] instanceof Object) {
+        } else if (a[key] instanceof Object && b[key] instanceof Object) {
           passed = $(a[key]).compare(b[key]);
-          break;
-        }
-        if (a[key] != b[key]) {
+        } else if (options.caseSensitive == false && typeof a[key] == 'string') {
+          passed = a[key].toLowerCase() == b[key].toLowerCase();
+        } else if (a[key] !== b[key]) {
           passed = false;
+        }
+        
+        if (!passed) {
           break;
         }
       }
@@ -119,7 +124,6 @@
     }
 
     return true;
-    // return $(a);
   }
 
   var callFn = function(fn, params) {

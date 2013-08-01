@@ -27,7 +27,7 @@ $(['cat', 'dog', 'bird']).compare(['CAT', 'DOG', 'BIRD'], {
 
 Type: _Boolean_, Default: `false`
 
-Perform an exact match on the number of properties the array or object has.
+Perform a "contains" search on a second array or object.
 
 ``` Javascript
 $([1, 2, 3]).compare([1, 2, 3, 4, 5], {
@@ -42,9 +42,14 @@ Type: _Boolean_, Default: `true`
 Whether or not the array should be sorted prior to the comparison (this will not have any affect on the arrays your pass through to the function.) This option has no effect on objects.
 
 ``` Javascript
-$([1, 2, 3]).compare([3, 2, 1], {
+var array1 = [1, 2, 3], array2 = [3, 2, 1];
+
+$(array1).compare(array2, {
   sort: false
 });
+
+console.log(array1); // [1, 2, 3]
+console.log(array2); // [3, 2, 1]
 ```
 
 #### success

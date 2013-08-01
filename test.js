@@ -1,6 +1,6 @@
 // Arrays
 var a = [1, 2, 3], b = [1, 2, 3], c = [2, 3, 4], d = [3, 2, 1], e = [1, 2, 3, 4];
-var f = {a:1, b:2, c:3}, g = {a:1, b:2, c:3}, h = {b:2, c:3, d:4}, i = {c:3, b:2, a:1}, j = {a:1, b:2, c:3, d:4};
+var f = {a:1, b:2, c:3}, g = {a:1, b:2, c:3}, h = {b:2, c:3, d:4}, i = {c:3, b:2, a:1}, j = {a:1, b:2, c:3, d:4}, oa = {A:1, B:2, C:3}, ob = {a:'Cat', b:'Dog', c:'Lemon'}, oc = {A:'cat', B:'dog', C:'lemon'};
 
 // Arrays with words
 var k = ['cat', 'dog', 'lemon'],
@@ -43,6 +43,11 @@ test('Objects', function() {
   ok($(f).compare(i), print_r('==', f, i));
   equal($(f).compare(j), false, print_r('!=', f, j));
   ok($(f).compare(j, {fuzzy: true}), print_r('*=', f, j));
+  equal($(f).compare(oa), false, print_r('!=', f, oa));
+  ok($(f).compare(oa, {caseSensitive: false}), print_r('==', f, oa));
+  ok($(ob).compare(ob), print_r('==', ob, ob));
+  equal($(ob).compare(oc), false, print_r('!=', ob, oc));
+  ok($(ob).compare(oc, {caseSensitive: false}), print_r('==', ob, oc));
 })
 
 /* -------------------------------
@@ -52,16 +57,18 @@ var aa = {a: 1, b: { c: 2, d: 3 } }, ab = {a: 1, b: { c: 2, d: 3 } }, ac = {a: 1
 test('Nested Objects', function() {
   ok($(aa).compare(ab), print_r('==', aa, ab));
   equal($(aa).compare(ac), false, print_r('!=', aa, ac));
-  ok($({a:1, b: { c: {d:2}}}).compare({a:1, b: { c: {d:2}}}), print_r('==', {a:1, b: { c: {d:2}}}, {a:1, b: { c: {d:2}}}));
 });
 
 /* -------------------------------
 Scary objects!
 --------------------------------*/
-var ba = {a: function() { alert('test'); }, b: undefined, c: null};
+var ba = {a: function() { alert('test'); }, b: undefined, c: null}, bb = {a: function() { alert('test'); }, b: undefined, c: null}, bc = {a: "Cat", b: "Dog", c:"Lemon"}, bd = {a:"cat", b:"dog", c:"lemon"};
 test('Scary Objects', function() {
   equal($(ba).compare(ba), true);
   equal($(ba).compare({}), false);
+  equal($(ba).compare(bb), true);
+  equal($(bc).compare(bd), false);
+  equal($(bc).compare(bd, {caseSensitive: false}), true);
 });
 
 var print_r = function(operator) {
