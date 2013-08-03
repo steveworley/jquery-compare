@@ -1,0 +1,23 @@
+{
+  "name": "compare",
+  "version": "0.0.2",
+  "title": "jQuery Compare",
+  "author": {
+    "name": "Steve Worley",
+    "email": "sj.worley88@gmail.com",
+    "url": "http://steveworley.me"
+  },
+  "licenses": [
+    {
+        "type": "GPLv2",
+        "url": "http://www.example.com/licenses/gpl.html"
+    }
+  ],
+  "bugs": "https://github.com/steveworley/jquery-compare/issues",
+  "homepage": "https://github.com/steveworley/jquery-compare",
+  "docs": "http://steveworley.me/jquery-compare",
+  "download": "https://github.com/steveworley/jquery-compare",
+  "dependencies": {
+    "jquery": ">=1.5"
+  }
+}
