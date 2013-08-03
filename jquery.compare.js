@@ -3,7 +3,7 @@
  * 
  * jQuery Compare is a simple jQuery plugin that helps compare array and object litterals. 
  *
- * version: 0.2
+ * version: 0.2.0
  * author: Steve Worley <sj.worley88@gmail.com>
  * url: http://steveworley.me/jquery-compare
  *
