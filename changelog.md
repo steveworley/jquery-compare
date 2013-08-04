@@ -2,6 +2,9 @@
 Changelog
 ---------------------
 
+## v0.5.0
+- Update: Plugin manifest
+
 ## v0.4.0
 [04/08/2013]
 - Update: allow method chaining
