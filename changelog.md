@@ -2,6 +2,9 @@
 Changelog
 ---------------------
 
+## v0.6.0
+- Update: Plugin manifest
+
 ## v0.5.0
 - Update: Plugin manifest
 
