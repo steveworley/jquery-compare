@@ -3,16 +3,16 @@
  * 
  * jQuery Compare is a simple jQuery plugin that helps compare array and object litterals. 
  *
- * version: 0.3.0
+ * version: 0.4.0
  * author: Steve Worley <sj.worley88@gmail.com>
  * url: http://steveworley.me/jquery-compare
  *
  * Copyright (C) 2013 Steve Worley.
  *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -29,6 +29,7 @@
         isArray = $.isArray(compare),
         a = (isArray) ? this : this[0],
         b = (isArray) ? $.extend([], compare) : $.extend({}, compare),
+        $a = $(a),
         options = {};
 
     var defaults = {
@@ -40,7 +41,7 @@
     }
 
     cb = (arguments.length == 2 && typeof opts == 'function') ? opts : cb;
-
+        
     // Set up options
     if (typeof opts == 'object') {
       $.extend(options, defaults, opts);
@@ -50,11 +51,11 @@
 
     if (options.sort && isArray) {
       if (options.caseSensitive) {
+        a.sort();
         b.sort();
       } else {
-        b.sort(function (a, b) {
-            return a.toLowerCase().localeCompare(b.toLowerCase());
-        })
+        a.sort(caseSort);
+        b.sort(caseSort)
       }
     }
 
@@ -103,33 +104,70 @@
         if (typeof a[i] == 'string' && !options.caseSensitive) {
           if (typeof b[i] != 'string' || a[i].toLowerCase() != b[i].toLowerCase()) {
             passed = false;
+            break;
           }
         } else if  (a[i] != b[i]) {
           passed = false;
+          break;
         }
       }
     }
-
-    if (!passed) {
-      callFn(options.error, $(a));
-      return false;
+    
+    if (!passed) {      
+      $a.compareError = true;
+      if (isCallable(options.error)) {
+        options.error.apply(this, [$a]);
+      }
+      return $a;
+    }
+    
+    $a.compareError = false;
+    
+    if (isCallable(cb)) {
+      cb.apply(this, [$a]);
+    } else if (isCallable(options.success)) {
+      options.success.apply(this, [$a]);
     }
 
-    if (typeof cb == 'function') {
-      return cb($(a));
-    }
-
-    if (typeof options.success == 'function') {
-      return options.success($(a));
-    }
-
-    return true;
+    return $a;
   }
-
-  var callFn = function(fn, params) {
+  
+  /**
+   *  Function isCallable().
+   *
+   *  Determines whether a function can be called.
+   *
+   * @param string fn
+   *   The functions name.
+   *
+   * @return bool
+   *   If the function can be called.
+   */
+  var isCallable = function(fn) {
     if (typeof fn == 'function') {
-      fn(params);
+      return true;
     }
+    return false;
+  }
+  
+  /**
+   * Callback caseSort().
+   *
+   * Determines the sort order of an array regardless of properties case.
+   *
+   * @param mixed a
+   *   Index in an array
+   * @param mixed b
+   *   Index in an array
+   *
+   * @return int
+   *   Where b should be inserted into the array in relation to a.
+   */
+  var caseSort = function(a, b) {
+    if (typeof a == 'number') {
+      return a - b;
+    }
+    return a.toLowerCase().localeCompare(b.toLowerCase());
   }
 
 }(jQuery);

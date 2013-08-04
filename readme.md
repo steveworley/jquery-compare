@@ -1,7 +1,6 @@
 # jQuery Compare
 
-This jQuery plugin helps with array and object literal comparisons with a few customisations to help get fine grained comparisions with a small amount of code. It supports callbacks, a list of available options follow.
-
+A lightweight jQuery plugin that helps with array and object comparisons. The plugin offers a few configurable options to help get the type of matching that you're after. It supports callbacks (error and succcess) and method chaining.
 
 *Usage*
 
@@ -10,6 +9,22 @@ $([mixed]).compare([mixed], {options}, callback);
 ```
 
 ## Options
+
+### Chaining
+
+``` Javascript
+$(['cat', 'dog', 'bird'])
+  .compare(['cat', 'dog', 'bird'], 
+    function(array) { 
+      alert('they match') 
+    }
+  )
+  .compare(['fish', 'monkey', 'tiger'], {
+    error: function(array) { 
+      alert('The error callback is triggered');
+    }
+  });
+  ```
 
 #### caseSensitive
 
