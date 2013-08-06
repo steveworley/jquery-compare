@@ -3,7 +3,7 @@
  * 
  * jQuery Compare is a simple jQuery plugin that helps compare array and object litterals. 
  *
- * version: 0.6.0
+ * version: 0.7.0
  * author: Steve Worley <sj.worley88@gmail.com>
  * url: http://steveworley.me/jquery-compare
  *
@@ -31,31 +31,24 @@
         b = (isArray) ? $.extend([], compare) : $.extend({}, compare),
         $a = $(a),
         options = {};
-
-    var defaults = {
-      fuzzy: false,
-      sort: true,
-      caseSensitive: true,
-      success: {},
-      error: {}
-    }
-
-    cb = (arguments.length == 2 && typeof opts == 'function') ? opts : cb;
-        
+    
     // Set up options
     if (typeof opts == 'object') {
-      $.extend(options, defaults, opts);
+      $.extend(options, $.fn.compare.defaults, opts);
     } else {
-      $.extend(options, defaults);
+      $.extend(options, $.fn.compare.defaults);
     }
 
+    options.success = (arguments.length == 2 && typeof opts == 'function') ? opts 
+      : (typeof cb == 'function') ? cb : options.success;
+    
     if (options.sort && isArray) {
       if (options.caseSensitive) {
         a.sort();
         b.sort();
       } else {
-        a.sort(caseSort);
-        b.sort(caseSort)
+        a.sort($.fn.compare.caseSort);
+        b.sort($.fn.compare.caseSort)
       }
     }
 
@@ -115,39 +108,30 @@
     
     if (!passed) {      
       $a.compareError = true;
-      if (isCallable(options.error)) {
-        options.error.apply(this, [$a]);
-      }
+      options.error.apply(this, [$a]);
+      
       return $a;
     }
     
     $a.compareError = false;
-    
-    if (isCallable(cb)) {
-      cb.apply(this, [$a]);
-    } else if (isCallable(options.success)) {
-      options.success.apply(this, [$a]);
-    }
+
+    options.success.apply(this, [$a]);
 
     return $a;
   }
   
   /**
-   *  Function isCallable().
+   * defaults.
    *
-   *  Determines whether a function can be called.
-   *
-   * @param string fn
-   *   The functions name.
-   *
-   * @return bool
-   *   If the function can be called.
+   * Set the default options for the plugin, this will make the defaults public so 
+   * they can be overridden globally.
    */
-  var isCallable = function(fn) {
-    if (typeof fn == 'function') {
-      return true;
-    }
-    return false;
+  $.fn.compare.defaults = {
+    fuzzy: false,
+    sort: true,
+    caseSensitive: true,
+    success: function() {},
+    error: function() {}
   }
   
   /**
@@ -163,7 +147,7 @@
    * @return int
    *   Where b should be inserted into the array in relation to a.
    */
-  var caseSort = function(a, b) {
+  $.fn.compare.caseSort = function(a, b) {
     if (typeof a == 'number') {
       return a - b;
     }

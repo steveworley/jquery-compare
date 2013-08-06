@@ -102,3 +102,17 @@ $([1, 2, 3]).compare([1, 2, 3], function(mixed) {
   alert('test') 
 });
 ```
+
+## Methods
+
+### caseSort
+
+Params: `string(a)`, `string(b)`
+
+Is to be used as a case insensitive comparison tool. Attempts to return whether or not a string is alphabetically before another.
+
+``` Javascript
+if ($.fn.compare.caseSort('house', 'lamb')) {
+  alert('I am technically ahead!');
+}
+```

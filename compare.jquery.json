@@ -1,7 +1,7 @@
 {
   "name": "compare",
-  "version": "0.6.0",
-  "title": "Array Compare",
+  "version": "0.7.0",
+  "title": "jQuery Compare",
   "description": "A lightweight jQuery plugin that helps with array and object comparisons. The plugin offers a few configurable options to help get the type of matching that you're after. It supports callbacks (error and succcess) and method chaining.",
   "author": {
     "name": "Steve Worley",

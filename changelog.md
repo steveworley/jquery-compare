@@ -2,6 +2,14 @@
 Changelog
 ---------------------
 
+## v0.7.0
+- Update: Plugin now supports global defaults which can be overridden
+- Update: Plugin now supports a global caseSort method which can be used
+- Update: Performance improvements
+  - Removed unnecessary typeof checks
+  - Removed additional functions
+  - Set default error and success to empty functions
+
 ## v0.6.0
 - Update: Plugin manifest
 
